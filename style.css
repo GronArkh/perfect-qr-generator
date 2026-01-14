@@ -169,7 +169,7 @@ input[type="text"], select { box-sizing: border-box; padding: 12px; font-size: 1
 .download-buttons-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px; /* Расстояние между кнопками */
+    gap: 12px;
     width: 100%;
     max-width: 480px;
     align-items: center;
@@ -179,7 +179,7 @@ input[type="text"], select { box-sizing: border-box; padding: 12px; font-size: 1
 #download-btn, #download-btn-png, #copy-code-btn {
     font-size: 16px;
     cursor: pointer;
-    border-radius: 8px; /* Сделали чуть более скругленными */
+    border-radius: 8px;
     transition: all 0.2s ease;
     font-weight: 600;
     padding: 12px 20px;
@@ -187,12 +187,11 @@ input[type="text"], select { box-sizing: border-box; padding: 12px; font-size: 1
     text-align: center;
 }
 
-/* --- 1. Главная кнопка (PNG) - Залитая --- */
 #download-btn-png {
-    flex: 1 1 45%; /* На мобилках во всю ширину */
+    flex: 1 1 45%;
     background-color: #007bff;
     color: white;
-    border: 2px solid #007bff; /* Чтобы размер совпадал с SVG кнопкой */
+    border: 2px solid #007bff;
 }
 #download-btn-png:hover {
     background-color: #0056b3;
@@ -210,7 +209,7 @@ input[type="text"], select { box-sizing: border-box; padding: 12px; font-size: 1
 
 /* --- 2. Второстепенная кнопка (SVG) - Контурная (Outline) --- */
 #download-btn {
-    flex: 1 1 45%; /* Делит ряд с текстовой кнопкой или занимает половину */
+    flex: 1 1 45%;
     background-color: #007bff;
     color: white;
     border: 2px solid #007bff;
@@ -229,7 +228,7 @@ input[type="text"], select { box-sizing: border-box; padding: 12px; font-size: 1
     transform: none;
 }
 
-/* --- 3. Третичная кнопка (Копировать код) - Текстовая ссылка --- */
+/* --- 3. Кнопка (Копировать код) - Текстовая ссылка --- */
 #copy-code-btn {
     flex: 1 1 100%;
     background: none;
@@ -255,17 +254,17 @@ input[type="text"], select { box-sizing: border-box; padding: 12px; font-size: 1
 /* Адаптив: На десктопе PNG и SVG в ряд, ссылка снизу или сбоку */
 @media (min-width: 480px) {
     #download-btn-png {
-        flex: 1 1 45%; /* PNG занимает половину */
+        flex: 1 1 45%;
         order: 1;
     }
     #download-btn {
-        flex: 1 1 45%; /* SVG занимает половину */
+        flex: 1 1 45%;
         order: 2;
     }
     #copy-code-btn {
-        flex: 1 1 100%; /* Ссылка на новой строке по центру */
+        flex: 1 1 100%;
         order: 3;
-        font-size: 14px; /* Чуть меньше шрифт */
+        font-size: 14px;
         margin-top: -5px;
     }
 }
