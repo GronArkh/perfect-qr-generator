@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="icon" type="image/svg+xml" href="/qr/favicon/favicon.svg">
+    <link rel="icon" type="image/png" href="/qr/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="shortcut icon" href="/qr/favicon/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/qr/favicon/apple-touch-icon.png">
+    <link rel="manifest" href="/qr/favicon/site.webmanifest">
+    <meta name="apple-mobile-web-app-title" content="QR codes">
+    <title>Генератор QR-кодов: Создать идеальный QR-код для Ссылки, Telegram, VK</title>
+   <meta name="description" content="Лучший бесплатный генератор QR-кодов, созданный для дизайнеров и маркетологов. Создавайте чистые векторные QR-коды (SVG), идеально совместимые с Adobe Illustrator, CorelDRAW, Figma, а также скачивайте в высоком разрешении PNG. Добавляйте логотип, настраивайте дизайн, цвет, скругление точек и форму. Идеальный инструмент для создания профессиональных QR-кодов для печати и веба.">
+    <meta name="keywords" content="генератор qr-кодов, создать qr-код, векторный qr-код, qr-код svg, qr-код в векторе, qr-код для дизайнера, qr-код для печати, qr-код для иллюстратора, qr-код для adobe illustrator, qr-код для корела, qr-код для coreldraw, qr-код для фигмы, qr-код для figma, qr-код png, qr-код с прозрачным фоном, qr код высокое разрешение, чистый qr-код, профессиональный qr-код, лучший генератор qr-кодов, бесплатный генератор qr-кодов, qr-код с логотипом, кастомный qr-код, qr-код для телеграм, qr-код для вк, qr-код для whatsapp, куар код, создать куар код, qr code generator for designers, vector qr code, qr code svg, красивый qr, сокращение ссылок">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/qr/coloris.css">
+    <link rel="stylesheet" href="/qr/style.min.css">
+    <link rel="stylesheet" href="/qr/cropper.min.css">
+    <link rel="manifest" href="/qr/manifest.json">
+</head>
+<body>
+<div class="main-container">
+    <div class="page-layout">
+        <div id="controls-panel">
+            <h1>Генератор QR-кодов</h1>
+            <div class="controls">
+                <input type="text" id="qr-text" value="https://kolesovgena.ru" placeholder="Введите текст или URL">
+                
+                <div class="checkbox-control" style="justify-content: flex-start; margin-top: -10px; margin-bottom: -5px;">
+                    <input type="checkbox" id="shorten-url-checkbox">
+                    <label id="shorten-url-label" for="shorten-url-checkbox" style="font-size: 15px; color: #555;">Сократить ссылку (clck.ru)</label>
+                </div>
+
+                <!-- БЛОК ЛОГОТИПА -->
+                <details id="logo-settings" class="advanced-settings" open>
+                    <summary>
+                        <img src="/qr/images/star.svg" class="summary-icon">
+                        <span>Логотип</span>
+                    </summary>
+                    <div class="logo-controls-container">
+                        <div class="logo-upload-section" style="display: none;">
+                            <input type="file" id="logo-upload-input" accept=".png, .jpg, .jpeg, .svg">
+                            <label for="logo-upload-input" id="logo-upload-label">Загрузить логотип</label>
+                            
+                            <button id="remove-logo-wrapper" style="display: none;">
+                                <img id="logo-preview" src="">
+                                <span>Удалить</span>
+                            </button>
+                        </div>
+                        <div class="logo-info-box">
+                            Загрузите собственный логотип в формате .png, .jpg или .svg размером не более 6 МБ.<br>
+                            Или выберите логотип из популярных.
+                        </div>
+                        <div class="preset-logos-container">
+                            <div class="preset-logos-grid">
+                                <div class="preset-logo-wrapper" id="upload-logo-preset" title="Загрузить свой логотип" style="border: 2px dashed #007bff;"><img src="/qr/images/download.svg" class="preset-logo-img"></div>
+                                <div class="preset-logo-wrapper" id="remove-logo-preset" title="Удалить логотип"><img src="/qr/images/delete.svg" class="preset-logo-img"></div>
+                                <div class="preset-logo-wrapper" title="ВК" data-logo-url="/qr/images/vk.svg"><img src="/qr/images/vk.svg" class="preset-logo-img"></div>
+                                <div class="preset-logo-wrapper" title="Телеграм" data-logo-url="/qr/images/tg.svg"><img src="/qr/images/tg.svg" class="preset-logo-img"></div>
+                                <div class="preset-logo-wrapper" title="Инстаграм" data-logo-url="/qr/images/inst.svg"><img src="/qr/images/inst.svg" class="preset-logo-img"></div>
+                                <div class="preset-logo-wrapper" title="Яндекс Карты" data-logo-url="/qr/images/ya.svg"><img src="/qr/images/ya.svg" class="preset-logo-img"></div>
+                                <div class="preset-logo-wrapper" title="2ГИС" data-logo-url="/qr/images/2gis.svg"><img src="/qr/images/2gis.svg" class="preset-logo-img"></div>
+                                <div class="preset-logo-wrapper" title="Авито" data-logo-url="/qr/images/avito.svg"><img src="/qr/images/avito.svg" class="preset-logo-img"></div>
+                                <div class="preset-logo-wrapper" title="DIKIDI" data-logo-url="/qr/images/dd.svg"><img src="/qr/images/dd.svg" class="preset-logo-img"></div>
+                                <div class="preset-logo-wrapper" title="YCLIENTS" data-logo-url="/qr/images/yc.svg"><img src="/qr/images/yc.svg" class="preset-logo-img"></div>
+                                <div class="preset-logo-wrapper" title="СБП" data-logo-url="/qr/images/sbp.svg"><img src="/qr/images/sbp.svg" class="preset-logo-img"></div>
+                                <div class="preset-logo-wrapper" title="Сбер" data-logo-url="/qr/images/sb.svg"><img src="/qr/images/sb.svg" class="preset-logo-img"></div>
+                                <div class="preset-logo-wrapper" title="Т-Банк" data-logo-url="/qr/images/tbank.svg"><img src="/qr/images/tbank.svg" class="preset-logo-img"></div>
+                                <div class="preset-logo-wrapper" id="placeholder-logo-preset" title="Логотип в цвет точек" data-logo-url="/qr/images/pen.svg"><img src="/qr/images/pen.svg" class="preset-logo-img"></div>
+                            </div>
+                        </div>
+                    </div>
+                </details>
+
+                <!-- БЛОК НАСТРОЙКИ ФОРМЫ -->
+                <details class="advanced-settings">
+                    <summary>
+                        <img src="/qr/images/nstr.svg" class="summary-icon">
+                        <span>Настройка формы</span>
+                    </summary>
+                    <div class="slider-controls-container">
+                         <div class="slider-control">
+                            <label for="dot-scale-slider">
+                                <span class="label-group">
+                                    <img src="/qr/images/nstr-03.svg" class="control-icon">
+                                    <span>Толщина точек:</span>
+                                </span>
+                                <span><span id="dot-scale-value">100</span>%</span>
+                            </label>
+                            <input type="range" id="dot-scale-slider" min="75" max="125" value="98">
+                        </div>
+                        <div class="slider-control">
+                            <label for="rounding-slider">
+                                <span class="label-group">
+                                    <img src="/qr/images/nstr-03.svg" class="control-icon">
+                                    <span>Скругление точек:</span>
+                                </span>
+                                <span><span id="rounding-value">50</span>%</span>
+                            </label>
+                            <input type="range" id="rounding-slider" min="0" max="100" value="80">
+                        </div>
+                        <div class="slider-control">
+                            <label for="internal-rounding-slider">
+                                <span class="label-group">
+                                    <img src="/qr/images/nstr-03.svg" class="control-icon">
+                                    <span>Скругление точек (внутр.):</span>
+                                </span>
+                                <span><span id="internal-rounding-value">15</span>%</span>
+                            </label>
+                            <input type="range" id="internal-rounding-slider" min="0" max="100" value="30">
+                        </div>
+                        <div class="slider-control">
+                             <label for="eye-rounding-slider">
+                                <span class="label-group">
+                                    <img src="/qr/images/nstr-02.svg" class="control-icon">
+                                    <span>Форма меток:</span>
+                                </span>
+                                <span><span id="eye-rounding-value">94</span>%</span>
+                            </label>
+                            <input type="range" id="eye-rounding-slider" min="0" max="100" value="94">
+                        </div>
+                        <div class="slider-control" id="logo-rounding-control">
+                            <label for="logo-rounding-slider">
+                                <span class="label-group">
+                                    <img src="/qr/images/nstr-01.svg" class="control-icon">
+                                    <span>Форма логотипа:</span>
+                                </span>
+                                <span><span id="logo-rounding-value">94</span>%</span>
+                            </label>
+                            <input type="range" id="logo-rounding-slider" min="0" max="100" value="94">
+                        </div>
+                        <div class="slider-control" id="logo-size-control">
+                            <label for="logo-size-slider">
+                                <span class="label-group">
+                                    <img src="/qr/images/nstr-01.svg" class="control-icon">
+                                    <span>Размер логотипа:</span>
+                                </span>
+                                <span><span id="logo-size-value">100</span>%</span>
+                            </label>
+                            <input type="range" id="logo-size-slider" min="60" max="100" value="98">
+                        </div>
+                    </div>
+                </details>
+
+                <!-- БЛОК ЦВЕТ КОДА -->
+                <details class="advanced-settings">
+                    <summary>
+                        <img src="/qr/images/palitra.svg" class="summary-icon">
+                        <span>Цвет кода</span>
+                    </summary>
+                    <div class="slider-controls-container">
+                        <div class="color-controls-row">
+                            <div class="slider-control" id="dot-color-control">
+                                <label for="dot-color-picker">
+                                    <span class="label-group">
+                                        <img src="/qr/images/nstr-03.svg" class="control-icon">
+                                        <span>Цвет точек:</span>
+                                    </span>
+                                </label>
+                                <input type="text" id="dot-color-picker" value="#000000" data-coloris>
+                            </div>
+                            <div class="slider-control" id="eye-color-control">
+                                <label for="eye-color-picker">
+                                    <span class="label-group">
+                                        <img src="/qr/images/nstr-02.svg" class="control-icon">
+                                        <span>Цвет меток:</span>
+                                    </span>
+                                </label>
+                                <input type="text" id="eye-color-picker" value="#000000" data-coloris>
+                            </div>
+                        </div>
+                        <details class="advanced-settings" id="gradient-details">
+                             <summary class="summary-with-switch">
+                                <span class="summary-label-group">
+                                    <img src="/qr/images/nstr.svg" class="summary-icon">
+                                    <span>Градиентная заливка</span>
+                                </span>
+                                <label class="switch">
+                                    <input type="checkbox" id="gradient-toggle-checkbox">
+                                    <span class="slider"></span>
+                                </label>
+                            </summary>
+                             <div class="gradient-controls-container" id="gradient-controls-container">
+                                <div class="color-controls-row">
+                                    <div class="slider-control">
+                                        <label for="gradient-color-picker-1">Первый цвет:</label>
+                                        <input type="text" id="gradient-color-picker-1" value="#000000" data-coloris>
+                                    </div>
+                                    <div class="slider-control">
+                                        <label for="gradient-color-picker-2">Второй цвет:</label>
+                                        <input type="text" id="gradient-color-picker-2" value="#000bd3" data-coloris>
+                                    </div>
+                                </div>
+                                <div class="slider-control" id="gradient-rotation-control">
+                                    <label for="gradient-rotation-slider">Поворот градиента: <span id="gradient-rotation-value">90</span>°</label>
+                                    <input type="range" id="gradient-rotation-slider" min="0" max="360" value="135">
+                                </div>
+                             </div>
+                        </details>
+                    </div>
+                </details>
+                
+                <!-- БЛОК ФОН КОДА -->
+                <details class="advanced-settings" id="background-settings">
+                    <summary>
+                       <img src="/qr/images/ramki-05.svg" class="summary-icon">
+                       <span>Фон кода</span>
+                   </summary>
+                    <div class="logo-controls-container" style="display: flex; flex-direction: column; gap: 15px;">
+                        
+                        <!-- 1. Сплошной цвет -->
+                        <div class="slider-control" id="bg-solid-color-control">
+                            <label for="bg-solid-color-picker">Цвет фона:</label>
+                            <input type="text" id="bg-solid-color-picker" value="#ffffff" data-coloris>
+                        </div>
+
+                        <!-- СЛАЙДЕР НЕПРОЗРАЧНОСТИ -->
+                        <div class="slider-control" id="bg-opacity-control">
+                            <label for="bg-opacity-slider">Непрозрачность фона: <span id="bg-opacity-value">0</span>%</label>
+                            <input type="range" id="bg-opacity-slider" min="0" max="100" value="0">
+                        </div>
+
+                        <!-- 2. Градиентный фон -->
+                        <details class="advanced-settings" id="bg-gradient-details">
+                            <summary class="summary-with-switch">
+                                <span class="summary-label-group">
+                                    <img src="/qr/images/ramki-gr.svg" class="summary-icon">
+                                    <span>Градиентный фон</span>
+                                </span>
+                                <label class="switch">
+                                    <input type="checkbox" id="bg-gradient-checkbox">
+                                    <span class="slider"></span>
+                                </label>
+                            </summary>
+                            <div class="gradient-controls-container" id="bg-gradient-controls" style="padding-top: 20px;">
+                                <div class="color-controls-row">
+                                    <div class="slider-control">
+                                        <label for="bg-gradient-color-1">Первый цвет:</label>
+                                        <input type="text" id="bg-gradient-color-1" value="#3098ff" data-coloris>
+                                    </div>
+                                    <div class="slider-control">
+                                        <label for="bg-gradient-color-2">Второй цвет:</label>
+                                        <input type="text" id="bg-gradient-color-2" value="#ff28e6" data-coloris>
+                                    </div>
+                                </div>
+                                <div class="slider-control">
+                                    <label for="bg-gradient-rotation-slider">Поворот градиента: <span id="bg-gradient-rotation-value">315</span>°</label>
+                                    <input type="range" id="bg-gradient-rotation-slider" min="0" max="360" value="315">
+                                </div>
+                            </div>
+                        </details>
+
+                        <!-- 3. Фон картинкой -->
+                        <details class="advanced-settings" id="bg-image-details">
+                            <summary class="summary-with-switch">
+                                <span class="summary-label-group">
+                                    <img src="/qr/images/fon.svg" class="summary-icon">
+                                    <span>Фон картинкой</span>
+                                </span>
+                                <label class="switch">
+                                    <input type="checkbox" id="bg-image-checkbox">
+                                    <span class="slider"></span>
+                                </label>
+                            </summary>
+                            <div class="logo-controls-container" id="bg-image-controls" style="padding-top: 20px;">
+                                <input type="file" id="background-upload-input" accept=".png, .jpg, .jpeg" style="display: none;">
+                                <div class="preset-logos-container">
+                                    <div class="preset-logos-grid preset-backgrounds-grid">
+                                        <div class="preset-logo-wrapper" id="upload-background-preset" title="Загрузить свой фон" style="border: 2px dashed #007bff;"><img src="/qr/images/download.svg" class="preset-logo-img"></div>
+                                        
+                                        <!-- ПРЕСЕТЫ С КАРТИНКАМИ -->
+                                        <div class="preset-logo-wrapper preset-background-item" title="Фон 1" data-bg-src="/qr/images/bgforqr-01.jpg">
+                                            <img src="/qr/images/bgforqr-01.jpg" class="preset-logo-img" style="object-fit: cover;">
+                                        </div>
+                                        <div class="preset-logo-wrapper preset-background-item" title="Фон 2" data-bg-src="/qr/images/bgforqr-02.jpg">
+                                            <img src="/qr/images/bgforqr-02.jpg" class="preset-logo-img" style="object-fit: cover;">
+                                        </div>
+                                        <div class="preset-logo-wrapper preset-background-item" title="Фон 3" data-bg-src="/qr/images/bgforqr-03.jpg">
+                                            <img src="/qr/images/bgforqr-03.jpg" class="preset-logo-img" style="object-fit: cover;">
+                                        </div>
+                                        <div class="preset-logo-wrapper preset-background-item" title="Фон 4" data-bg-src="/qr/images/bgforqr-04.jpg">
+                                            <img src="/qr/images/bgforqr-04.jpg" class="preset-logo-img" style="object-fit: cover;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </details>
+
+                    </div>
+               </details>
+
+                <!-- БЛОК РАМКА -->
+                <details id="frame-settings" class="advanced-settings">
+                    <summary>
+                        <img src="/qr/images/ramki.svg" class="summary-icon">
+                        <span>Рамка</span>
+                    </summary>
+                    <div class="slider-controls-container">
+                         <div class="preset-frames-grid">
+                            <div class="preset-frame-wrapper selected" data-frame-type="none" title="Без рамки">
+                               <img src="/qr/images/delete.svg" class="preset-frame-img">
+                            </div>
+                            <div class="preset-frame-wrapper" data-frame-type="full" title="Цветная рамка с текстом снизу">
+                               <img src="/qr/images/ramki-02.svg" class="preset-frame-img">
+                            </div>
+                            <div class="preset-frame-wrapper" data-frame-type="full-top" title="Цветная рамка с текстом сверху">
+                               <img src="/qr/images/ramki-03.svg" class="preset-frame-img">
+                            </div>
+                            <div class="preset-frame-wrapper" data-frame-type="simple" title="Простая цветная рамка">
+                               <img src="/qr/images/ramki-01.svg" class="preset-frame-img">
+                            </div>
+                             <div class="preset-frame-wrapper" data-frame-type="text-panel" title="Белый фон с текстом снизу">
+                               <img src="/qr/images/ramki-04.svg" class="preset-frame-img">
+                            </div>
+                            <div class="preset-frame-wrapper" data-frame-type="bottom-text" title="Карточка с текстом снизу">
+                                <img src="/qr/images/ramki-06.svg" class="preset-frame-img">
+                            </div>
+                        </div>
+                        <div class="slider-control" id="frame-bg-color-control" style="display: none;">
+                            <label for="frame-bg-color-picker">Цвет фона QR:</label>
+                            <input type="text" id="frame-bg-color-picker" value="#FFFFFF" data-coloris>
+                        </div>
+                        <div class="slider-control" id="frame-text-control" style="display: none;">
+                            <label for="frame-text-input">Текст в рамке:</label>
+                            <input type="text" id="frame-text-input" value="Отсканируй меня" maxlength="40">
+                        </div>
+                        <!-- ЦВЕТА ТЕКСТА -->
+                        <div class="slider-control" id="frame-text-color-control" style="display: none;">
+                            <label for="frame-text-color-picker">Цвет текста:</label>
+                            <input type="text" id="frame-text-color-picker" value="#FFFFFF" data-coloris>
+                        </div>
+                         <!-- ЦВЕТА ТЕКСТА (ДЛЯ КАРТОЧКИ) -->
+                        <div class="slider-control" id="bottom-frame-text-color-control" style="display: none;">
+                            <label for="bottom-frame-text-color-picker">Цвет текста (карточка):</label>
+                            <input type="text" id="bottom-frame-text-color-picker" value="#000000" data-coloris>
+                        </div>
+                    </div>
+                </details>
+        </div>
+    </div>
+    <div id="preview-panel">
+        <div id="qr-preview"></div>
+        <div class="download-buttons-container">
+            <button id="download-btn-png" disabled>Скачать PNG</button>
+            <button id="download-btn" disabled>Скачать SVG</button>
+            <button id="copy-code-btn" disabled>Скопировать код SVG</button>
+        </div>
+    </div>
+</div>
+</div>
+
+<div id="crop-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+        <h2 id="crop-modal-title">Настройте ваш логотип</h2>
+        <div class="crop-container">
+            <img id="image-to-crop" src="">
+        </div>
+        <div class="modal-buttons">
+            <button id="cancel-crop-btn" class="modal-btn cancel">Отмена</button>
+            <button id="confirm-crop-btn" class="modal-btn confirm">Применить</button>
+        </div>
+    </div>
+</div>
+
+<script src="clipper.js" defer></script>
+<script src="coloris.js" defer></script>
+<script src="opentype.js" defer></script>
+<script src="qrcode.js" defer></script>
+<script src="cropper.min.js" defer></script>
+<script src="main.min.js" defer></script>
+
+<script>
+    // Регистрация Service Worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/qr/service-worker.js', { scope: '/qr/' })
+          .then(registration => {
+            console.log('Service Worker успешно зарегистрирован!');
+          })
+          .catch(registrationError => {
+            console.log('Ошибка регистрации Service Worker: ', registrationError);
+          });
+      });
+    }
+</script>
+</body>
+</html>

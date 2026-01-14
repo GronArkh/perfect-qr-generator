@@ -1,0 +1,337 @@
+/* --- Стили для модального окна кадрирования --- */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+}
+
+.crop-container {
+    margin-top: 15px;
+    margin-bottom: 20px;
+    max-height: 50vh; 
+}
+
+#image-to-crop {
+    display: block;
+    max-width: 100%;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+}
+
+.modal-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.modal-btn.confirm {
+    background-color: #007bff;
+    color: white;
+}
+.modal-btn.confirm:hover {
+    background-color: #0056b3;
+}
+
+.modal-btn.cancel {
+    background-color: #e9ecef;
+    color: #495057;
+}
+.modal-btn.cancel:hover {
+    background-color: #dae0e5;
+}
+
+/* --- Основные стили --- */
+
+@font-face {
+    font-family: 'Rubik-Custom';
+    src: url('/qr/fonts/Rubik-Medium.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+body {
+    background: #f0f2f5;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 40px;
+}
+
+.main-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.page-layout::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+#controls-panel, #preview-panel {
+    background-color: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    box-sizing: border-box;
+}
+#controls-panel {
+    float: left;
+    width: 65%;
+}
+#preview-panel {
+    float: left;
+    width: 32%;
+    margin-left: 3%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+@media (max-width: 850px) {
+    body { padding: 20px; }
+    #controls-panel, #preview-panel {
+        padding: 20px;
+        float: none;
+        width: 100%;
+        margin-left: 0;
+    }
+    #controls-panel {
+        margin-bottom: 20px;
+    }
+}
+
+h1 { color: #1c1e21; margin-bottom: 20px; margin-top: 0px;}
+
+#qr-preview {
+    height: auto;
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ddd;
+    padding: 10px;
+    background-color: transparent; 
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    transition: opacity 0.3s;
+}
+#qr-preview svg {
+    width: 100%;
+    height: 100%;
+    transition: filter 0.3s ease;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+#qr-preview:empty { opacity: 0; }
+input[type="text"], select { box-sizing: border-box; padding: 12px; font-size: 16px; width: 100%; border: 1px solid #ccc; border-radius: 6px; }
+.controls { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+.slider-control { width: 100%; text-align: left; color: #555; font-size: 15px; transition: opacity 0.3s;}
+.slider-control label { display: flex; justify-content: space-between; margin-bottom: 5px; align-items: center; }
+
+.download-buttons-container {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    max-width: 480px;
+    flex-wrap: wrap;
+}
+
+/* --- Контейнер кнопок --- */
+.download-buttons-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px; /* Расстояние между кнопками */
+    width: 100%;
+    max-width: 480px;
+    align-items: center;
+}
+
+/* --- Общие стили для всех кнопок --- */
+#download-btn, #download-btn-png, #copy-code-btn {
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 8px; /* Сделали чуть более скругленными */
+    transition: all 0.2s ease;
+    font-weight: 600;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+/* --- 1. Главная кнопка (PNG) - Залитая --- */
+#download-btn-png {
+    flex: 1 1 45%; /* На мобилках во всю ширину */
+    background-color: #007bff;
+    color: white;
+    border: 2px solid #007bff; /* Чтобы размер совпадал с SVG кнопкой */
+}
+#download-btn-png:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+}
+#download-btn-png:disabled {
+    background-color: #9E9E9E;
+    border-color: #9E9E9E;
+    box-shadow: none;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* --- 2. Второстепенная кнопка (SVG) - Контурная (Outline) --- */
+#download-btn {
+    flex: 1 1 45%; /* Делит ряд с текстовой кнопкой или занимает половину */
+    background-color: #007bff;
+    color: white;
+    border: 2px solid #007bff;
+}
+#download-btn:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+}
+#download-btn:disabled {
+    background-color: #9E9E9E;
+    border-color: #9E9E9E;
+    box-shadow: none;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* --- 3. Третичная кнопка (Копировать код) - Текстовая ссылка --- */
+#copy-code-btn {
+    flex: 1 1 100%;
+    background: none;
+    border: none;
+    color: #555;
+    font-weight: normal;
+    text-decoration: underline;
+    text-decoration-color: rgba(0,0,0,0.2);
+    text-underline-offset: 4px;
+    padding: 12px 10px 0px 10px;
+}
+#copy-code-btn:hover {
+    color: #007bff;
+    text-decoration-color: #007bff;
+    background-color: transparent;
+}
+#copy-code-btn:disabled {
+    color: #ccc;
+    text-decoration: none;
+    cursor: not-allowed;
+}
+
+/* Адаптив: На десктопе PNG и SVG в ряд, ссылка снизу или сбоку */
+@media (min-width: 480px) {
+    #download-btn-png {
+        flex: 1 1 45%; /* PNG занимает половину */
+        order: 1;
+    }
+    #download-btn {
+        flex: 1 1 45%; /* SVG занимает половину */
+        order: 2;
+    }
+    #copy-code-btn {
+        flex: 1 1 100%; /* Ссылка на новой строке по центру */
+        order: 3;
+        font-size: 14px; /* Чуть меньше шрифт */
+        margin-top: -5px;
+    }
+}
+
+.logo-upload-section { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; flex-wrap: wrap; }
+@media (max-width: 480px) { .logo-upload-section { flex-direction: column; align-items: stretch; text-align: center; } }
+
+.logo-info-box { border: 1px solid #ddd; padding: 8px 12px; border-radius: 6px; font-size: 13px; color: #555; line-height: 1.4; margin-top: 6px; text-align: center; width: 100%; box-sizing: border-box; }
+#logo-upload-input { display: none; }
+#logo-upload-label { background-color: #6c757d; color: white; padding: 8px 12px; border-radius: 5px; cursor: pointer; font-size: 14px; white-space: nowrap; border: none; }
+
+#remove-logo-wrapper { display: flex; align-items: center; gap: 8px; background: none; border: 1px solid #ddd; border-radius: 6px; padding: 4px 10px 4px 4px; cursor: pointer; transition: background-color 0.2s; flex-shrink: 0; }
+#remove-logo-wrapper:hover { background-color: #f8f9fa; }
+#remove-logo-wrapper span { color: #dc3545; font-size: 14px; font-weight: 500; white-space: nowrap; padding: 4px 30px 4px 4px; }
+#logo-preview { max-width: 28px; max-height: 28px; border-radius: 4px; }
+
+details.advanced-settings { width: 100%; background-color: #f8f9fa; border: 1px solid #d5d5d5; border-radius: 6px; padding: 10px 15px; box-sizing: border-box; color: #555; font-size: 15px; }
+details.advanced-settings summary { cursor: pointer; display: flex; align-items: center; list-style: none; user-select: none; position: relative; }
+details.advanced-settings summary:focus { outline: none; }
+details.advanced-settings summary::-webkit-details-marker { display: none; }
+
+.summary-icon { width: 14px; height: 14px; margin-right: 10px; }
+.slider-controls-container, details.advanced-settings .logo-controls-container { padding-top: 20px; display: flex; flex-direction: column; gap: 15px; }
+.color-controls-row { display: flex; gap: 15px; width: 100%; margin-bottom: 10px; }
+.color-controls-row .slider-control { flex: 1; }
+@media (max-width: 420px) { .color-controls-row { flex-direction: column; } }
+
+.clr-preview { display: none; }
+input.clr-color { margin: 15px 20px 20px 15px; }
+.clr-gradient { aspect-ratio: 4 / 3; height: auto; }
+.clr-field button { border-radius: 4px; height: calc(100% - 6px); right: 3px; width: auto; aspect-ratio: 1 / 1; border: 1px solid #ccc; }
+@media (max-width: 420px) { .clr-field{ width: 100%; } }
+
+.preset-logos-container { width: 100%; margin-top: 7px; }
+.preset-logos-grid, .preset-frames-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(38px, 1fr)); gap: 10px; justify-items: center; margin-bottom: 10px; }
+
+.preset-logo-wrapper, .preset-frame-wrapper { aspect-ratio: 1; height: 38px; padding: 0px; box-sizing: border-box; border: 2px solid transparent; cursor: pointer; transition: border-color 0.2s, background-color 0.2s; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.preset-logo-wrapper { border-radius: 8px; }
+.preset-logo-wrapper:hover, .preset-frame-wrapper:hover { background-color: #f0f2f5; }
+.preset-logo-wrapper.selected, .preset-frame-wrapper.selected { border-color: #007bff !important; background-color: #e7f1ff; border-radius: 4px; }
+
+.preset-logo-img, .preset-frame-img { width: 100%; height: 100%; object-fit: contain; padding: 0px; box-sizing: border-box; }
+input[type="range"] { -webkit-appearance: none; appearance: none; width: 100%; height: 8px; background: #ddd; border-radius: 5px; outline: none; cursor: pointer; }
+input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 18px; height: 18px; background: #007bff; border-radius: 50%; cursor: pointer; border: 2px solid white; box-shadow: 0 0 2px rgba(0,0,0,0.3); }
+input[type="range"]::-moz-range-thumb { width: 18px; height: 18px; background: #007bff; border-radius: 50%; cursor: pointer; border: 2px solid white; box-shadow: 0 0 2px rgba(0,0,0,0.3); }
+
+.control-icon { width: 14px; height: 14px; }
+.label-group { display: flex; align-items: center; gap: 8px; margin-left: 3px; }
+#gradient-details .gradient-controls-container { padding-top: 20px; display: flex; flex-direction: column; gap: 15px; }
+.disabled-control { opacity: 0.5; pointer-events: none; }
+.checkbox-control { display: flex; align-items: center; gap: 10px; width: 100%; }
+.checkbox-control label { margin-bottom: 0; cursor: pointer; }
+.checkbox-control input[type="checkbox"] { width: 18px; height: 18px; }
+
+@media (min-width: 851px) { #preview-panel { position: -webkit-sticky; position: sticky; top: 40px; } }
+
+details.advanced-settings summary::after { content: ''; position: absolute; right: 0; top: 50%; width: 16px; height: 16px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: center; transform: translateY(-50%) rotate(0deg); transition: transform 0.2s ease-in-out; }
+details.advanced-settings[open] > summary::after { transform: translateY(-50%) rotate(180deg); }
+
+.summary-with-switch { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+.summary-with-switch .summary-label-group { display: flex; align-items: center; gap: 10px; }
+.summary-with-switch::after { display: none !important; }
+
+.switch { position: relative; display: inline-block; width: 44px; height: 24px; flex-shrink: 0; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 24px; }
+.slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+input:checked + .slider { background-color: #007bff; }
+input:checked + .slider:before { transform: translateX(20px); }
