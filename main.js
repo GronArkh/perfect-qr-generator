@@ -1,7 +1,7 @@
 // =================================================================================
 // 1. ИНИЦИАЛИЗАЦИЯ ПЕРЕМЕННЫХ И ПОДКЛЮЧЕНИЕ DOM-ЭЛЕМЕНТОВ
 // =================================================================================
-Coloris({ alpha: false }); // ОТКЛЮЧАЕМ АЛЬФА-КАНАЛ В ПИПЕТКАХ
+Coloris({ alpha: false }); // ОТКЛЮЧАЮ АЛЬФА-КАНАЛ В ПИПЕТКАХ
 
 const qrTextInput = document.getElementById('qr-text');
 const shortenUrlCheckbox = document.getElementById('shorten-url-checkbox');
@@ -228,7 +228,7 @@ function toggleColorInputsState(isDisabled) { dotColorControl.classList.toggle('
 function toggleLogoSlidersState(isDisabled) { logoRoundingControl.classList.toggle('disabled-control', isDisabled); logoSizeControl.classList.toggle('disabled-control', isDisabled); }
 function updateLogoButtonText() { logoUploadLabel.textContent = uploadedLogo ? 'Заменить логотип' : 'Загрузить логотип'; }
 
-// ИСПРАВЛЕННАЯ ФУНКЦИЯ ГЕНЕРАЦИИ ТЕКСТА В КРИВЫХ
+// ФУНКЦИЯ ГЕНЕРАЦИИ ТЕКСТА В КРИВЫХ
 function generateTextAsPath(text, targetX, targetY, fontSize, colorStr) { 
     if (!font) return ''; 
     const glyphs = font.stringToGlyphs(text); 
@@ -249,43 +249,37 @@ function generateTextAsPath(text, targetX, targetY, fontSize, colorStr) {
 function adjustFrameTextSize() {
     const textEl = document.getElementById('frame-text-element');
     
-    // Проверки на существование элементов
     if (!textEl || !cachedQrGeometry.moduleCount) { 
         options.adjustedFrameTextSize = null; 
         return; 
     }
 
-    // 1. Определяем доступное пространство
+    // 1. Определяю доступное пространство
     const qrSize = cachedQrGeometry.moduleCount * options.cellSize + options.padding * 2;
     const totalFrameWidth = qrSize + options.framePadding * 2;
     
-    // Доступная ширина = полная ширина минус отступы (например, по 10px с краев), 
-    // чтобы текст не прилипал к краям рамки.
     const availableWidth = totalFrameWidth - 50; 
 
-    // 2. Определяем максимально допустимый размер шрифта по высоте плашки
-    // (берем примерно 75% от высоты панели с текстом, чтобы были отступы сверху и снизу)
+    // 2. Определяю максимально допустимый размер шрифта по высоте плашки
     const maxFontSizeByHeight = options.frameTextHeight * 0.50;
 
-    // 3. Сначала пробуем применить максимальный размер шрифта
+    // 3. Сначала пробую применить максимальный размер шрифта
     let fontSize = maxFontSizeByHeight;
     textEl.setAttribute('font-size', fontSize);
 
-    // 4. Измеряем реальную ширину текста при этом размере
+    // 4. Измеряю реальную ширину текста при этом размере
     const currentTextWidth = textEl.getComputedTextLength();
 
-    // 5. Если текст получился шире, чем доступное место, вычисляем коэффициент уменьшения
+    // 5. Если текст получился шире, чем доступное место, вычисляю коэффициент уменьшения
     if (currentTextWidth > availableWidth) {
-        // Простая математика: НовыйРазмер = ТекущийРазмер * (НужнаяШирина / ТекущаяШирина)
         fontSize = fontSize * (availableWidth / currentTextWidth);
     }
 
-    // 6. Ставим ограничение, чтобы текст не стал слишком мелким (минимум 8px)
-    // и округляем вниз для четкости
+    // 6. Ставлю ограничение, чтобы текст не стал слишком мелким (минимум 8px)
     fontSize = Math.floor(fontSize);
     if (fontSize < 8) fontSize = 8;
 
-    // 7. Применяем финальный размер и сохраняем его в опции для экспорта
+    // 7. Применяю финальный размер и сохраняем его в опции для экспорта
     textEl.setAttribute('font-size', fontSize);
     options.adjustedFrameTextSize = fontSize;
 }
@@ -386,19 +380,12 @@ function generateFrameSvg(moduleCount, useAdjustedFontSize = false, convertTextT
     let frameElements = ''; 
     const textColor = (options.frameType === 'bottom-text') ? options.bottomFrameTextColor : options.frameTextColor;
 
-    // --- ИСПРАВЛЕНИЕ НАЧАЛО ---
-    // Величина, на которую уменьшаем белую подложку (в единицах SVG)
-    // 0.8 - 1 вполне достаточно, чтобы убрать белую кайму, но сохранить фон для прозрачных PNG
     const shrink = 1;
 
-    // Подложка для обычного расположения (смещаем x/y на +shrink, уменьшаем ширину/высоту на shrink*2)
     const baseWhiteInner = `<rect x="${options.framePadding + shrink}" y="${options.framePadding + shrink}" width="${qrSize - shrink*2}" height="${qrSize - shrink*2}" rx="${options.frameCornerRadius/2}" fill="white"/>`;
     
-    // Подложка для рамки с текстом сверху (full-top)
     const baseWhiteInnerTop = `<rect x="${options.framePadding + shrink}" y="${options.framePadding + options.frameTextHeight + shrink}" width="${qrSize - shrink*2}" height="${qrSize - shrink*2}" rx="${options.frameCornerRadius/2}" fill="white"/>`;
-    // --- ИСПРАВЛЕНИЕ КОНЕЦ ---
 
-    // Полная белая подложка (для text-panel и background) - её можно не уменьшать, так как она обычно лежит под основной заливкой
     const baseWhiteFull = `<rect x="0" y="0" width="${totalWidth}" height="${totalHeight}" rx="${options.frameCornerRadius}" fill="white"/>`;
 
     if (options.frameType === 'full') { 
@@ -406,7 +393,6 @@ function generateFrameSvg(moduleCount, useAdjustedFontSize = false, convertTextT
         const frameText = convertTextToPaths && font ? generateTextAsPath(options.frameText, totalWidth / 2, textY, fontSize, options.frameTextColor) : `<text id="frame-text-element" x="${totalWidth/2}" y="${textY}" dominant-baseline="middle" font-family="${fontFamily}" font-size="${fontSize}" font-weight="bold" text-anchor="middle" fill="${textColor}">${options.frameText}</text>`; 
         const innerBg = getFrameBackgroundLayer(options.framePadding, options.framePadding, qrSize, qrSize, options.frameCornerRadius/2);
         
-        // Порядок слоев: Цвет рамки -> Белая подложка (чуть меньше) -> Фон картинкой -> Текст
         frameElements = `<rect x="0" y="0" width="${totalWidth}" height="${totalHeight}" rx="${options.frameCornerRadius}" fill="${frameFill}"/>${baseWhiteInner}${innerBg}${frameText}`; 
     } 
     else if (options.frameType === 'full-top') { 
@@ -522,14 +508,12 @@ function handleLogoRemove() { isLogoActive = false; isPlaceholderLogoActive = fa
 function generateLogoSvg(moduleCount, steppedPlaceholderSize, addLogo, useFullResLogo = false) { if (!addLogo || steppedPlaceholderSize <= 0) return null; const center = Math.floor(moduleCount / 2); const halfSteppedPlaceholder = Math.floor(steppedPlaceholderSize / 2); const startModule = center - halfSteppedPlaceholder; const safeZoneX = startModule * options.cellSize + options.padding, safeZoneY = startModule * options.cellSize + options.padding; const safeZoneSize = steppedPlaceholderSize * options.cellSize; const visualClearanceInModules = moduleCount * options.logoSizePercentage; const visualPlaceholderInModules = visualClearanceInModules - (options.logoSafeZoneModules * 2); const visualSize = visualPlaceholderInModules * options.cellSize; const visualX = safeZoneX + (safeZoneSize - visualSize) / 2, visualY = safeZoneY + (safeZoneSize - visualSize) / 2; const logoRoundingValue = parseInt(logoRoundingSlider.value, 10); logoRoundingValueSpan.textContent = logoRoundingValue; let logoStyle = {}; if (logoRoundingValue <= 50) { const t = logoRoundingValue / 50; logoStyle = { method: 'arc', radius: (visualSize / 2) * t }; } else { const t = (logoRoundingValue - 50) / 50; const kappa = 0.552284749831; logoStyle = { method: 'bezier', size: visualSize, radius: visualSize / 2, factor: kappa + t * (1 - kappa) }; } if (isPlaceholderLogoActive) { const fill = options.gradientEnabled ? 'url(#qr-gradient)' : options.dotColor; return `<g id="logo-placeholder">${logoStyle.method === 'bezier' ? `<path d="${createSuperellipsePath(visualX, visualY, logoStyle)}" fill="${fill}"/>` : `<rect x="${visualX}" y="${visualY}" width="${visualSize}" height="${visualSize}" rx="${logoStyle.radius}" fill="${fill}"/>`}</g>`; } if (uploadedLogo) { const clipPath = generateLogoClipPath(visualX, visualY, visualSize, logoStyle); if (uploadedLogo.type === 'svg' && useFullResLogo) { const svgDoc = new DOMParser().parseFromString(uploadedLogo.fullData, "image/svg+xml"); const svgEl = svgDoc.documentElement; ['x', 'y', 'width', 'height', 'preserveAspectRatio'].forEach(attr => svgEl.setAttribute(attr, [visualX, visualY, visualSize, visualSize, 'xMidYMid meet'][['x', 'y', 'width', 'height', 'preserveAspectRatio'].indexOf(attr)])); return `${clipPath}<g id="logo-image" clip-path="url(#logo-clip-path)">${svgEl.outerHTML}</g>`; } else { return `${clipPath}<g id="logo-image" clip-path="url(#logo-clip-path)"><image href="${useFullResLogo ? uploadedLogo.fullData : uploadedLogo.previewData}" xlink:href="${useFullResLogo ? uploadedLogo.fullData : uploadedLogo.previewData}" x="${visualX}" y="${visualY}" width="${visualSize}" height="${visualSize}"/></g>`; } } return null; }
 async function loadInitialLogo(url) { isLogoActive = true; try { const isDataUrl = url.startsWith('data:image/svg+xml'); let svgText, svgDataBase64; if (isDataUrl) { svgDataBase64 = url; svgText = atob(url.split(',')[1]); } else { const response = await fetch(url); if (!response.ok) throw new Error('Network response was not ok'); svgText = await response.text(); svgDataBase64 = `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svgText)))}`; } const img = new Image(); img.onload = () => { uploadedLogo = { type: 'svg', previewData: svgDataBase64, fullData: svgText }; logoPreview.src = svgDataBase64; removeLogoWrapper.style.display = 'flex'; updateLogoButtonText(); generateNewQRCode(); toggleLogoSlidersState(false); }; img.src = svgDataBase64; } catch (error) { console.error('Failed to fetch initial logo:', error); isLogoActive = false; removeLogoWrapper.style.display = 'none'; generateNewQRCode(); toggleLogoSlidersState(true); } }
 function initializePresetLogos() {
-    // ИЗМЕНЕНИЕ: Добавляем :not(.preset-background-item), чтобы не выбирать фоны
     const allPresets = document.querySelectorAll('.preset-logo-wrapper:not(.preset-background-item)');
     
     allPresets.forEach(logo => {
         if (logo.id === 'remove-logo-preset' || logo.id === 'upload-logo-preset') return;
         
         logo.addEventListener('click', () => {
-            // Удаляем выделение только у логотипов
             allPresets.forEach(el => el.classList.remove('selected'));
             logo.classList.add('selected');
             
@@ -550,7 +534,7 @@ function isInsideLogoArea(r, c, mc, size, addLogo) { if (!addLogo || size <= 0) 
 function createSuperellipsePath(x, y, style) { const { size, radius, factor } = style; if (radius === 0) return `M ${x},${y} H ${x + size} V ${y + size} H ${x} Z`; const c = radius * factor; return [`M ${x+radius},${y}`,`L ${x+size-radius},${y}`,`C ${x+size-radius+c},${y} ${x+size},${y+radius-c} ${x+size},${y+radius}`,`L ${x+size},${y+size-radius}`,`C ${x+size},${y+size-radius+c} ${x+size-radius+c},${y+size} ${x+size-radius},${y+size}`,`L ${x+radius},${y+size}`,`C ${x+radius-c},${y+size} ${x},${y+size-radius+c} ${x},${y+size-radius}`,`L ${x},${y+radius}`,`C ${x},${y+radius-c} ${x+radius-c},${y} ${x+radius},${y}`,'Z'].join(' '); }
 function generateFinderPatternsSvg(moduleCount) { const p = options.padding, cs = options.cellSize; const eyeScale = 1 + (options.dotScale - 1) * 0.6; const outerFrameThickness = cs * eyeScale; const outerSize = cs * 5 + (2 * outerFrameThickness); const outerOffset = (cs * 7 - outerSize) / 2; const innerDotSize = cs * 3; const innerOffset = (cs * 7 - innerDotSize) / 2; const finderPositions = [[p, p], [p + (moduleCount - 7) * cs, p], [p, p + (moduleCount - 7) * cs]]; const finderFill = options.gradientEnabled ? 'url(#qr-gradient)' : options.eyeColor; 
     
-    // Применяем парсер цвета для меток (глазков)
+    // Применяю парсер цвета для меток
     let finderFillAttr = '';
     if (options.gradientEnabled) {
         finderFillAttr = 'fill="url(#qr-gradient)"';
@@ -563,7 +547,6 @@ function generateFinderPatternsSvg(moduleCount) { const p = options.padding, cs 
 function generateLogoClipPath(x, y, size, style) { const clipPathId = "logo-clip-path"; let clipShape; if (style.method === 'bezier') clipShape = `<path d="${createSuperellipsePath(x, y, style)}"/>`; else clipShape = `<rect x="${x}" y="${y}" width="${size}" height="${size}" rx="${style.radius}"/>`; return `<defs><clipPath id="${clipPathId}">${clipShape}</clipPath></defs>`; }
 function downloadFile(content, fileName) { const a = document.createElement('a'); a.href = (typeof content === 'string' && content.startsWith('data:')) ? content : URL.createObjectURL(content); a.download = fileName; document.body.appendChild(a).click(); document.body.removeChild(a); if (!(typeof content === 'string' && content.startsWith('data:'))) URL.revokeObjectURL(a.href); }
 
-// НОВАЯ ФУНКЦИЯ: Управление состоянием disabled для выбора сплошного цвета
 function toggleSolidColorInputState() {
     const isGradientActive = bgGradientCheckbox.checked;
     const isImageActive = bgImageCheckbox.checked;
@@ -581,20 +564,17 @@ function initializePresetBackgrounds() {
     const allPresets = document.querySelectorAll('.preset-background-item'); 
     document.getElementById('upload-background-preset')?.addEventListener('click', () => backgroundUploadInput.click()); 
     
-    // МЫ УДАЛИЛИ ОТСЮДА БЛОК АВТОЗАГРУЗКИ (строки с firstBg)
     
     allPresets.forEach(bg => { 
         bg.addEventListener('click', () => { 
             allPresets.forEach(el => el.classList.remove('selected')); 
             bg.classList.add('selected'); 
             
-            // Выбираем режим "картинка", сбрасываем градиент
             bgImageCheckbox.checked = true;
             bgImageDetails.open = true;
             bgGradientCheckbox.checked = false;
             bgGradientDetails.open = false;
             
-            // Обновляем состояние disabled
             toggleSolidColorInputState();
 
             const bgSrc = bg.dataset.bgSrc; 
@@ -642,8 +622,6 @@ frameTextInput.addEventListener('input', () => { if (frameTextInput.value.length
 frameBgColorPicker.addEventListener('input', updateQrStyles);
 frameTextColorPicker.addEventListener('input', updateQrStyles); 
 bottomFrameTextColorPicker.addEventListener('input', updateQrStyles); 
-
-// ОБРАБОТЧИКИ ДЛЯ НОВЫХ ПОЛЕЙ ФОНА
 bgSolidColorPicker.addEventListener('input', updateQrStyles);
 bgOpacitySlider.addEventListener('input', () => {
     bgOpacityValue.textContent = bgOpacitySlider.value;
@@ -663,7 +641,6 @@ bgGradientCheckbox.addEventListener('change', () => {
     if (bgGradientCheckbox.checked) {
         bgImageCheckbox.checked = false;
         bgImageDetails.open = false;
-        // НЕ СБРАСЫВАЕМ uploadedBackground, ЧТОБЫ СОХРАНИТЬ ВЫБОР КАРТИНКИ
     }
     toggleSolidColorInputState();
     updateQrStyles();
@@ -688,10 +665,6 @@ bgImageCheckbox.addEventListener('change', () => {
     if (bgImageCheckbox.checked) {
         bgGradientCheckbox.checked = false;
         bgGradientDetails.open = false;
-        
-        // МЫ УБРАЛИ АВТО-КЛИК ПО ПЕРВОМУ ПРЕСЕТУ
-        // Теперь при включении чекбокса ничего не происходит, пока
-        // пользователь сам не нажмет на картинку.
     } 
     toggleSolidColorInputState();
     updateQrStyles();
@@ -722,9 +695,7 @@ confirmCropBtn.addEventListener('click', () => {
         toggleLogoSlidersState(false);
     } else if (currentCropTarget === 'background') {
         uploadedBackground = { type: 'image', data: croppedImageDataURL };
-        // При загрузке своего фона сбрасываем выделение пресетов
         document.querySelectorAll('.preset-background-item').forEach(el => el.classList.remove('selected'));
-        // Убеждаемся что режим картинки включен
         bgImageCheckbox.checked = true;
         bgImageDetails.open = true;
         bgGradientCheckbox.checked = false;
@@ -759,7 +730,6 @@ initializePresetFrames();
 initializePresetBackgrounds();
 gradientToggleCheckbox.checked = gradientDetails.open;
 
-// Инициализация состояния
 toggleColorInputsState(gradientDetails.open);
 toggleLogoSlidersState(!isLogoActive);
 toggleSolidColorInputState(); 
